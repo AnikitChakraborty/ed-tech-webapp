@@ -3,22 +3,13 @@ import { createCourseDto } from 'src/common/dto/create-course.dto';
 import { Course } from 'src/schemas/course.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { CourseFilterDto } from 'src/common/dto/course-filter.dto';
 
 @Injectable()
 export class CoursesService {
   constructor(@InjectModel(Course.name) private courseModel: Model<Course>) {}
 
   async createCourse(createCourse: createCourseDto): Promise<any> {
-    const existCourse = await this.courseModel
-      .findOne({ course_name: createCourse.course_name })
-      .exec();
-
-    if (existCourse) {
-      return {
-        success: false,
-        message: 'Course aldready exists',
-      };
-    }
     const newCourse = new this.courseModel(createCourse);
 
     await newCourse.save();
@@ -29,7 +20,10 @@ export class CoursesService {
       course: newCourse,
     };
   }
-  async getAllCourses() {
-    return this.courseModel.find();
+
+  async filterCourses(query: CourseFilterDto) {
+    const queryObj = { ...query };
+    console.log(queryObj);
+    return this.courseModel.find(queryObj);
   }
 }
