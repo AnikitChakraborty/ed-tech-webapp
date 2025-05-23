@@ -6,5 +6,9 @@ export function generateAccessToken(
   JwtService: JwtService,
 ): string {
   const payload = { sub: userId, username };
-  return JwtService.sign(payload, { algorithm: 'HS256', expiresIn: '15m' });
+  return JwtService.sign(payload, {
+    algorithm: 'HS256',
+    expiresIn: '15m',
+    secret: process.env.JWT_SECRET,
+  });
 }

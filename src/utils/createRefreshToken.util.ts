@@ -6,5 +6,9 @@ export function generateRefreshToken(
   JwtService: JwtService,
 ): string {
   const payload = { sub: userId, username };
-  return JwtService.sign(payload, { algorithm: 'HS256', expiresIn: '7d' });
+  return JwtService.sign(payload, {
+    algorithm: 'HS256',
+    expiresIn: '7d',
+    secret: process.env.JWT_SECRET,
+  });
 }

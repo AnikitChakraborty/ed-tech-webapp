@@ -69,8 +69,8 @@ export class UserService {
       success: true,
       message: 'user Created Successfully',
       user: newUser,
-      accessToken,
-      refreshToken,
+      // accessToken,
+      // refreshToken,
     };
   }
 
